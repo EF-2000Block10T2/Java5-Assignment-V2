@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Our Products</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<article>
+    <main class="container my-5">
+        <div class="text-center mt-4">
+            <a href="/cart" class="btn btn-warning">Go to Cart</a>
+        </div>
+        <h2 class="mb-4">Available flights</h2>
+        <div class="row g-4">
+            <!-- Iterate over the products list and display each product -->
+            <a th:each="product : ${products}"
+               th:href="@{/products/{id}(id=${product.id})}"
+               class="text-decoration-none col-md-4"
+               th:fragment="product-item">
+                <div class="card h-100">
+                    <img src="https://live.staticflickr.com/2887/33485104380_5ea079b4ed_b.jpg" class="card-img-top" alt="Product Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title" th:text="${product.name}"></h5>
+                        <p class="card-text" th:text="${product.price}"></p>
+                        <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post">
+                            <button type="submit" class="btn btn-primary">Book flight</button>
+                        </form>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    </main>
+</article>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
