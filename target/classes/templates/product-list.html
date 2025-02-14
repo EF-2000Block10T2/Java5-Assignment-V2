@@ -6,28 +6,74 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="sticky-top navbar navbar-expand-sm navbar-dark bg-info-subtle">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Logo_of_SkyTeam_%28horizontal%29.svg" alt="" style="width: 200px;">
+            &nbsp;
+        </a>
+        <button class="navbar-toggler" type="button" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-info-emphasis" href="#"><i class="bi bi-list-ul"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-info-emphasis" href=""><i class="bi bi-film"></i> Videos</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-info-emphasis" href="" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-badge"></i> Regions
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Domestic</a></li>
+                        <li><a class="dropdown-item" href="#">International</a></li>
+                    </ul>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-info-emphasis" href="" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-badge"></i> Account
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Forgot Password?</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <li class="nav-item">
+                <a class="btn btn-warning" href="/cart">Go to cart</a>
+            </li>
+        </div>
+    </div>
+</nav>
 <article>
     <main class="container my-5">
-        <div class="text-center mt-4">
-            <a href="/cart" class="btn btn-warning">Go to Cart</a>
-        </div>
         <h2 class="mb-4">Available flights</h2>
         <div class="row g-4">
             <!-- Iterate over the products list and display each product -->
             <a th:each="product : ${products}"
                th:href="@{/products/{id}(id=${product.id})}"
-               class="text-decoration-none col-md-4"
+               class="text-decoration-none col-md-10"
                th:fragment="product-item">
                 <div class="card h-100">
-                    <img src="https://live.staticflickr.com/2887/33485104380_5ea079b4ed_b.jpg" class="card-img-top" alt="Product Image">
-                    <div class="card-body text-center">
-                        <h5 class="card-title" th:text="${product.name}"></h5>
-                        <p class="card-text" th:text="${product.price}"></p>
-                        <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post">
-                            <button type="submit" class="btn btn-primary">Book flight</button>
-                        </form>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img src="https://static.wixstatic.com/media/9d8ed5_fe7edb3f4b0144b88412a74a9617ad86~mv2.png/v1/fill/w_980,h_613,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/9d8ed5_fe7edb3f4b0144b88412a74a9617ad86~mv2.png" class="card-img" alt="Product Image">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="card-body justity-content-center">
+                                <h5 class="card-title" th:text="${product.name}"></h5>
+                                <p class="card-text" th:text="${product.price} + VND"></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 d-flex align-items-stretch">
+                            <form th:action="@{/cart/add/{id}(id=${product.id})}" method="post" class="w-100 d-flex">
+                                <button type="submit" class="btn btn-primary w-100 h-100">Book flight</button>
+                            </form>
+                        </div>
                     </div>
-
                 </div>
             </a>
         </div>
