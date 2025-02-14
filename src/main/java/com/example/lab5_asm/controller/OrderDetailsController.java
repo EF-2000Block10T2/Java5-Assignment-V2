@@ -24,6 +24,7 @@ public class OrderDetailsController {
             orderDetailsService.submitOrder(cart);  // Submit the order with the cart data
             System.out.println("Cart contains: " + cart.getProducts().size() + " products.");
         }
+
         return "order-confirmation-view";
     }
 }
