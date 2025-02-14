@@ -25,4 +25,10 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);  // Returns the product if present, or null if not found
     }
+    public List<Product> getProductsBycategory_id(String category_id) {
+        return productRepository.findByCategoryId(category_id);
+    }
+
+
+
 }

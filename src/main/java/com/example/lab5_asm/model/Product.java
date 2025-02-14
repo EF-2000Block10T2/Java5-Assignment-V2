@@ -20,4 +20,5 @@ public class Product {
     private int price;
     private int quantity;
     private String category_id;
+    private String image_url;
 }
