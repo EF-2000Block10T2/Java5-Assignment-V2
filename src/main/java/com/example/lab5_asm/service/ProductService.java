@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ProductService {
@@ -14,21 +16,19 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    // Get all products from the database
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();  // Make sure this is correctly fetching data from your SQL Server database
+    // Get all products with pagination
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
-
 
     // Get product by ID
     public Product getProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null);  // Returns the product if present, or null if not found
-    }
-    public List<Product> getProductsBycategory_id(String category_id) {
-        return productRepository.findByCategoryId(category_id);
+        return productRepository.findById(id).orElse(null);
     }
 
-
-
+    // Get products by category with pagination
+    public Page<Product> getProductsByCategoryId(String category_id, Pageable pageable) {
+        return productRepository.findByCategoryId(category_id, pageable);
+    }
 }
+

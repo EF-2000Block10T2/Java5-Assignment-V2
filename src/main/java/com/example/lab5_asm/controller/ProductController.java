@@ -10,33 +10,47 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-@RequestMapping("/products")
 @Controller
+@RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
     @Autowired
     private ProductRepository productRepository;
 
     @GetMapping
-    public String getProducts(Model model) {
-        List<Product> products = productRepository.findAll();
-        model.addAttribute("products", products);
-        return "product-list"; // Return the main products page
+    public String getProducts(@RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "10") int size,
+                              Model model) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+
+        return "product-list"; // Ensure this matches your Thymeleaf template
     }
 
-    // Method to display filtered products based on category
     @GetMapping("/category/{categoryId}")
-    public String getProductsByCategory(@PathVariable String categoryId, Model model) {
-        List<Product> products = productRepository.findByCategoryId(categoryId);
-        model.addAttribute("products", products);
-        return "filtered-products"; // Return the filtered products page
+    public String getProductsByCategory(@PathVariable String categoryId,
+                                        @RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        Model model) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> productPage = productRepository.findByCategoryId(categoryId, pageable);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("categoryId", categoryId);
+
+        return "filtered-products"; // Ensure this matches your Thymeleaf template
     }
-
-
-
-
 }
