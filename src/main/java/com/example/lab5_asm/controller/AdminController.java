@@ -67,4 +67,9 @@ public class AdminController {
         model.addAttribute("orders", orders);
         return "order-list";
     }
+    @GetMapping("/mail")
+    public String showMailForm() {
+        return "admin-mail"; // This will load admin-mail.html
+    }
+
 }
